@@ -21,7 +21,33 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="alarm\Alarm.py" />
+    <Compile Include="alarm\AlarmManager.py" />
+    <Compile Include="alarm\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Assistant.py" />
+    <Compile Include="calculator\MathOperation.py" />
+    <Compile Include="calculator\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="calculator\Сalculator.py" />
+    <Compile Include="money\MoneyConverter.py" />
+    <Compile Include="money\MoneyType.py" />
+    <Compile Include="money\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PythonVirtualAssistant.py" />
+    <Compile Include="weather\WeatherGetter.py" />
+    <Compile Include="weather\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="alarm\" />
+    <Folder Include="calculator\" />
+    <Folder Include="money\" />
+    <Folder Include="weather\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
