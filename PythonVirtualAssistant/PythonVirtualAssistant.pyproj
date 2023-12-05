@@ -38,6 +38,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PythonVirtualAssistant.py" />
+    <Compile Include="storage\Storage.py" />
+    <Compile Include="storage\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="weather\WeatherGetter.py" />
     <Compile Include="weather\__init__.py">
       <SubType>Code</SubType>
@@ -47,7 +51,11 @@
     <Folder Include="alarm\" />
     <Folder Include="calculator\" />
     <Folder Include="money\" />
+    <Folder Include="storage\" />
     <Folder Include="weather\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="storage.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

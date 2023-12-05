@@ -1,13 +1,15 @@
-﻿from typing import Dict, Iterable
+﻿from pathlib import Path
+from typing import Dict, Iterable
 from alarm.Alarm import Alarm
-
+from storage.Storage import FileStorage
 
 class AlarmManager:
     ''' Менеджер будильников'''
 
-
+    # TODO инициализировать при запуске программы
     def __init__(self):
-        self.__alarms: Dict[int, Alarm] = {}
+        self.__fileStorage: FileStorage = FileStorage(Path('storage.txt')) # TODO TEST, возможно неверный путь!
+        self.__alarms: Dict[int, Alarm] = self.__fileStorage.get_all()
 
 
     def add_alarm(self, alarm: Alarm):
@@ -52,3 +54,7 @@ class AlarmManager:
     def call_alarm(self):
         ''' Звонит в будильник '''
         print('динь-дон!')
+
+    def save_alarms_to_file(self):
+        # TODO сохранение будильников на событие закрытия программы
+        self.__fileStorage.set_all(self.__alarms.values)
