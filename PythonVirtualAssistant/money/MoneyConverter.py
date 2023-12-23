@@ -1,15 +1,22 @@
-﻿from money import MoneyType
+﻿from typing import Any
+from money import MoneyType
+import requests
 
 class MoneyConverter:
 
-    def get_exchange_rates(self, valuta_from: MoneyType, valuta_to: MoneyType) -> float:
+    def get_exchange_rates(self, summ: float, valuta_from: Any, valuta_to: Any) -> str:
         # todo return курс нужных валют
         pass
 
     
-    def convert_moey(self, valuta_from: MoneyType, valuta_to: MoneyType, summ: float) -> str:
-        rate = self.get_exchange_rates(valuta_from, valuta_to)
-        return print(summ * rate)
+    def convert_money(self) -> str:
+        try:
+            summ: float = input('сумма: ')
+            valuta_from = input('из валюты: ')
+            valuta_to = input('в валюту: ')
+            return self.get_exchange_rates(summ, valuta_from, valuta_to)
+        except:
+           print("Ошибка. Попробуйте ещё раз")
                                        
 
 
