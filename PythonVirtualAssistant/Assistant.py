@@ -16,8 +16,9 @@ class Assistant:
         calc.calculate()
 
 
-    def __convert_money(self): #(valuta1, valuta2):
-        pass
+    def __convert_money(self):
+        money_converter = MoneyConverter()
+        money_converter.start_money_converter()
 
 
     def __print_wrong_input(cls):

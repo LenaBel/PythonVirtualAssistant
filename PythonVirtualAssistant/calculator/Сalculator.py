@@ -1,4 +1,5 @@
 ﻿import math
+import time
 
 class Calculator:
     
@@ -49,6 +50,7 @@ class Calculator:
 
     def calculate(self):
         while True:
+            time.sleep(0.5)
             operation = input('''Выберите номер операции: 
                      1. Сложить
                      2. Вычесть
