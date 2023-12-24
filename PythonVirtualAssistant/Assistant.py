@@ -7,8 +7,13 @@ import time
 
 class Assistant:
 
-    def __set_alarm(self): #(date, hour, minute):
-        pass
+
+    def __init__(self, alarmManager: AlarmManager):
+        self.__alarmManager = alarmManager
+
+
+    def __start_alarm(self):
+        self.__alarmManager.start_manage_alarms()
 
 
     def __calculate_math(self):
@@ -33,7 +38,7 @@ class Assistant:
                  5. Выход\n''')
         try:
             if operation == '1':
-                self.__set_alarm()
+                self.__start_alarm()
 
             elif operation == '2':
                 self.__calculate_math()

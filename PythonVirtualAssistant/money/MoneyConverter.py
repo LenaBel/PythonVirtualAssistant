@@ -15,7 +15,7 @@ class MoneyConverter:
     def __convert(self, summ: float, valuta_from: str, valuta_to: str):
         try:
             res = self.__conv.convert(summ, valuta_from, valuta_to)
-            print('Результат: ' + str(res))
+            print('Результат: ' + str(summ) + valuta_from + ' = ' + str(res) + valuta_to)
         except Exception as ex:
             print(ex)
 
@@ -44,7 +44,7 @@ class MoneyConverter:
                     valuta2 = input("Введите код валюты 2: ")
                     self.__convert(summ, valuta1.upper(), valuta2.upper())
                 except ValueError:
-                    print('Неверна введена сумма')
+                    print('Неверно введена сумма')
 
             elif operation == '3':
                 self.__help()

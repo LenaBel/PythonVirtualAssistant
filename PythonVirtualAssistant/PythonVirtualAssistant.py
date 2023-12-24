@@ -1,13 +1,9 @@
-﻿#Задача минимум
-#Написать виртуального помощника (служба + консольный клиент).
-#Приложение интерпретирует команды пользователя, выполняя ряд полезных операций:
-#Установить будильник на указанное время.
-#Вычислить математическое выражение
-#Показать прогноз погоды.
-#Сконвертировать валюты по текущему курсу.
-
+﻿
 from Assistant import Assistant
+from alarm.AlarmManager import AlarmManager
 
 if __name__ == '__main__':
-    assistant = Assistant()
+    alarmManager = AlarmManager()
+    assistant = Assistant(alarmManager)
     assistant.start_virtual_assistant()
+    alarmManager.save_alarms_to_file()
