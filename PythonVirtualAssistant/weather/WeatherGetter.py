@@ -18,3 +18,11 @@ class WeatherGetter:
         except Exception as er:
             print("Не найдено")
             print(f'Error: {er}')
+
+
+    @staticmethod
+    def get_weather_scheme(city_name: str):
+        url = 'https://wttr.in/{}'.format(city_name)
+        res = requests.get(url)
+        print(res.text.replace('Follow [46m[30m@igor_chubin[0m for wttr.in updates', ''))
+

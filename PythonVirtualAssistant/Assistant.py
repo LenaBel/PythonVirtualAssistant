@@ -33,7 +33,7 @@ class Assistant:
     def start_virtual_assistant(self):
         operation = input('''Выберите раздел: 1. Будильник 
                  2. Калькулятор 
-                 3. Прогноз погоды в Томске
+                 3. Прогноз погоды
                  4. Конвертер валют
                  5. Выход\n''')
         try:
@@ -44,7 +44,8 @@ class Assistant:
                 self.__calculate_math()
 
             elif operation == '3':
-                WeatherGetter.get_Tomsk_weather()
+                city_name = input('Введите название города: ')
+                WeatherGetter.get_weather_scheme(city_name)
 
             elif operation == '4':
                 self.__convert_money()

@@ -89,7 +89,7 @@ class AlarmManager:
             elif operation == '2':
                 try:
                     al_name = input('Введите имя будильника: ')
-                    al_dtime = datetime.strptime(input('Время будильника в формате 01/19/24 13:55:26: '), '%m/%d/%y %H:%M:%S')
+                    al_dtime = datetime.strptime(input('Время будильника в формате месяц/день/год(последние 2 цифры) час:мин:сек. Например, 01/19/24 13:55:26: '), '%m/%d/%y %H:%M:%S')
                     new_alarm = Alarm(al_name, al_dtime)
                     self.__add_alarm(new_alarm)
                 except ValueError:
