@@ -4,13 +4,11 @@ from money.MoneyConverter import MoneyConverter
 from weather.WeatherGetter import WeatherGetter
 import time
 
-
 class Assistant:
 
 
     def __init__(self, alarmManager: AlarmManager):
         self.__alarmManager = alarmManager
-
 
     def __start_alarm(self):
         self.__alarmManager.start_manage_alarms()

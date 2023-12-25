@@ -1,19 +1,64 @@
-﻿from pathlib import Path
+﻿import subprocess
+from pathlib import Path
 from typing import Dict, Iterable
 from alarm.Alarm import Alarm
 from alarm.Storage import FileStorage
-from datetime import datetime
+from datetime import datetime, timedelta
+from threading import Lock, Thread
 
 
 import time
+import platform, os
+from win10toast import ToastNotifier
+import asyncio
 
 class AlarmManager:
     ''' Менеджер будильников'''
 
 
+    def __push(self, title, message):
+        plt = platform.system()
+        if plt == "Linux":
+            subprocess.call('notify-send', title, message)
+        elif plt == "Windows":
+            ToastNotifier().show_toast(title, message)
+            return
+        else:
+            return
+
+    def __call_alarm(self, alarm: Alarm):
+        if alarm.alarm_id in self.__alarms.keys() and self.__alarms[alarm.alarm_id].is_on:
+            self.__push(alarm.name, 'ДИНЬ-ДОН! ЗВОНИТ БУДИЛЬНИК')
+            self.__alarms[alarm.alarm_id].is_on = False
+
+
+    def set_call(self, alarm: Alarm):
+        now = datetime.now()
+        delta: timedelta = alarm.time - now
+        time.sleep(delta.total_seconds())
+        if alarm.alarm_id in self.__alarms.keys() and self.__alarms[alarm.alarm_id].is_on:
+            self.__push(alarm.name, 'ДИНЬ-ДОН! ЗВОНИТ БУДИЛЬНИК')
+            self.__alarms[alarm.alarm_id].is_on = False
+
+
+    def __check_alarms(self):
+            if self.__alarms.keys().__len__() > 0:
+                now = datetime.now()
+
+                for alarm in self.__alarms.values():
+                    if alarm.is_on and now < alarm.time:
+                        try:
+                            task = Task(self, alarm)
+                            tr = Thread(target=task)
+                            tr.start()
+                        except:
+                            pass
+
+
     def __init__(self):
         self.__fileStorage: FileStorage = FileStorage(Path('storage.txt'))
         self.__alarms: Dict[int, Alarm] = self.__fileStorage.get_all()
+        self.__check_alarms()
 
 
     def __add_alarm(self, alarm: Alarm):
@@ -24,8 +69,16 @@ class AlarmManager:
                 id = int(list(self.__alarms.keys())[-1]) + 1
             alarm.alarm_id = id
             self.__alarms[alarm.alarm_id] = alarm
+            if datetime.now() < alarm.time:
+                try:
+                    task = Task(self, alarm)
+                    tr = Thread(target=task)
+                    tr.start()
+                except:
+                    pass
         except Exception as ex:
             print(ex)
+
 
     def __remove_alarm(self, alarm_id: int):
         ''' Удаляет будильник '''
@@ -77,11 +130,9 @@ class AlarmManager:
                      1. Показать список будильников
                      2. Добавить будильник
                      3. Удалить будильник
-                     4. Отключить будильник
-                     5. Включить будильник
-                     6. Показать информацию о будильнике по ID
-                     7. Позвонить в звоночек :-)
-                     8. Вернуться в основное меню виртуального помощника \n''')
+                     4. Показать информацию о будильнике по ID
+                     5. Позвонить в звоночек :-)
+                     6. Вернуться в основное меню виртуального помощника \n''')
 
             if operation == '1':
                 print(self.__get_alarms())
@@ -106,6 +157,24 @@ class AlarmManager:
 
             elif operation == '4':
                 try:
+                    one_id = int(input("Введите ID будильника: "))
+                    print(self.__get_alarm(one_id))
+                except ValueError:
+                    print('Неверный ввод, нужно ввести число')
+                    continue
+
+            elif operation == '5':
+                self.__call_alarm()
+
+            elif operation == '6':
+                break
+
+            else:
+                print("Неверный ввод")
+
+            '''
+            elif operation == '4':
+                try:
                     off_id = int(input("Введите ID будильника: "))
                     self.__off_alarm(off_id)
                 except ValueError:
@@ -119,21 +188,14 @@ class AlarmManager:
                 except ValueError:
                     print('Неверный ввод, нужно ввести число')
                     continue
+            '''
 
-            elif operation == '6':
-                try:
-                    one_id = int(input("Введите ID будильника: "))
-                    print(self.__get_alarm(one_id))
-                except ValueError:
-                    print('Неверный ввод, нужно ввести число')
-                    continue
+class Task(object):
+    def __init__(self, alarm_manager: AlarmManager, alarm: Alarm):
+        self.__alarm_manager = alarm_manager
+        self.__alarm = alarm
 
-            elif operation == '7':
-                self.__call_alarm()
-
-            elif operation == '8':
-                break
-
-            else:
-                print("Неверный ввод")
-
+    def __call__(self):
+        lock = Lock()
+        with lock:
+            self.__alarm_manager.set_call(self.__alarm)
